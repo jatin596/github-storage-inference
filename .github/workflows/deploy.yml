@@ -1,0 +1,30 @@
+name: Restart Inference
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  restart-inference:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Restart inference via E2E API
+        env:
+          API_KEY: ${{ secrets.E2E_API_KEY }}
+          AUTH_TOKEN: ${{ secrets.E2E_AUTH_TOKEN }}
+          PROJECT_ID: ${{ secrets.E2E_PROJECT_ID }}
+          TEAM_ID: ${{ secrets.E2E_TEAM_ID }}
+          INFERENCE_ID: ${{ secrets.E2E_INFERENCE_ID }}
+        run: |
+          echo "Restarting inference..."
+
+          curl -X PUT "https://api.e2enetworks.com/v1/inference/${INFERENCE_ID}/restart" \
+            -H "Authorization: Bearer ${AUTH_TOKEN}" \
+            -H "x-api-key: ${API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "project_id": "'"${PROJECT_ID}"'",
+              "team_id": "'"${TEAM_ID}"'"
+            }'
