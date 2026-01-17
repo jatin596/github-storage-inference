@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logging.info("Starting minimal Python server")
 
-PORT = 8080
+PORT = 8080 # TODO:
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     pass
